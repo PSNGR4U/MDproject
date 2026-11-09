@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Rejestracja</h2>
+<form method="POST">
+    {% csrf_token %}
+    <input type="text" placeholder="Login"><br><br>
+    <input type="password" placeholder="Hasło"><br><br>
+    <button type="submit">Zarejestruj się</button>
+</form>
+{% endblock %}
