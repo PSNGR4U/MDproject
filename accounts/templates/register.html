@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
-<div style="max-width: 400px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px;">
-    <h2>Rejestracja w MDProject</h2>
+<div class="auth-card">
+    <h2>Utworzenie konta 📝</h2>
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" style="padding: 10px 20px; background: #28a745; color: white; border: none; cursor: pointer;">Zarejestruj się</button>
+        <button type="submit" class="btn-submit">Zarejestruj się</button>
     </form>
-    <p style="margin-top: 15px; text-align: center;">
-    Masz już konto? <a href="{% url 'login' %}">Zaloguj się</a>
-</p>
+    <div class="auth-links">
+        Masz już konto? <a href="{% url 'login' %}">Zaloguj się</a>
+    </div>
 </div>
 {% endblock %}
