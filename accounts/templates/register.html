@@ -1,10 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Rejestracja</h2>
-<form method="POST">
-    {% csrf_token %}
-    <input type="text" placeholder="Login"><br><br>
-    <input type="password" placeholder="Hasło"><br><br>
-    <button type="submit">Zarejestruj się</button>
-</form>
+<div style="max-width: 400px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px;">
+    <h2>Rejestracja w MDProject</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" style="padding: 10px 20px; background: #28a745; color: white; border: none; cursor: pointer;">Zarejestruj się</button>
+    </form>
+    <p style="margin-top: 15px; text-align: center;">
+    Masz już konto? <a href="{% url 'login' %}">Zaloguj się</a>
+</p>
+</div>
 {% endblock %}

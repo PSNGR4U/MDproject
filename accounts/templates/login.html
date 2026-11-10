@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="max-width: 400px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px;">
+    <h2>Logowanie w MDProject</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" style="padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; width: 100%;">Zaloguj się</button>
+    </form>
+    <p style="margin-top: 15px; text-align: center;">
+        Nie masz konta? <a href="{% url 'register' %}">Zarejestruj się</a>
+    </p>
+</div>
+{% endblock %}
