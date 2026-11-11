@@ -1,7 +1,7 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     /* Указываем путь к картинке, делаем так, чтобы она покрывала весь экран и не повторялась */
-    background: url('images/fon1.png') no-repeat center center fixed;
+    background: url('images/fon2.png') no-repeat center center fixed;
     background-size: cover;
     margin: 0;
     padding: 0;
@@ -12,7 +12,7 @@ body {
 
 header {
     background-color: mediumpurple;
-    color: #F4A460;
+    color: orange;
     padding: 2px;
     text-align: center;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -139,4 +139,86 @@ ul.errorlist {
     padding-left: 20px;
     font-size: 13px;
     margin-bottom: 15px;
+}
+/* Контейнер главной страницы */
+.home-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* Центральная карточка приветствия */
+.welcome-card {
+    background: rgba(255, 255, 255, 0.95); /* Легкая полупрозрачность для красоты */
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 450px;
+    width: 100%;
+    backdrop-filter: blur(5px);
+}
+
+.welcome-card h1 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 26px;
+}
+
+.welcome-card p {
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 15px;
+}
+
+/* Кнопки на главной */
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: transform 0.2s, background-color 0.2s;
+    display: inline-block;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn-primary {
+    background-color: #e67e22; /* Фирменный оранжевый */
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #d35400;
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: #3498db;
+    border: 2px solid #3498db;
+}
+
+.btn-outline:hover {
+    background-color: #3498db;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #c0392b;
 }

@@ -1,26 +1,19 @@
 {% extends 'base.html' %}
-
 {% block content %}
-<div class="auth-card">
-    <h2>Witaj w MDProject!</h2>
+<div class="home-container">
+    <div class="welcome-card">
+        <h1>Witaj w MDProject 🍔🍟</h1>
+        <p>Twój ulubiony system zarządzania restauracją i zamówieniami.</p>
 
-    {% if user.is_authenticated %}
-    <p>Witaj, {{ user.username }}!</p>
-    <p>Twoja rola: {{ user.get_role_display }}</p>
-
-    <form method="POST" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit" class="btn-submit">
-            Wyloguj się
-        </button>
-    </form>
-    {% else %}
-    <p>Witaj na stronie naszej restauracji!</p>
-    <div class="auth-links">
-        <a href="{% url 'login' %}">Zaloguj się</a>
-        |
-        <a href="{% url 'register' %}">Zarejestruj się</a>
+        <div class="action-buttons">
+            {% if user.is_authenticated %}
+                <p>Zalogowano jako: <strong>{{ user.username }}</strong></p>
+                <a href="{% url 'logout' %}" class="btn btn-secondary">Wyloguj się</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn btn-primary">Zaloguj się</a>
+                <a href="{% url 'register' %}" class="btn btn-outline">Zarejestruj się</a>
+            {% endif %}
+        </div>
     </div>
-    {% endif %}
 </div>
 {% endblock %}

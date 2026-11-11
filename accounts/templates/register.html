@@ -8,7 +8,8 @@
         <button type="submit" class="btn-submit">Zarejestruj się</button>
     </form>
     <div class="auth-links">
-        Masz już konto? <a href="{% url 'login' %}">Zaloguj się</a>
+        <p>Masz już konto? <a href="{% url 'login' %}">Zaloguj się</a></p>
+        <p><a href="{% url 'home' %}" style="color: #888; text-decoration: none;">← Strona główna</a></p>
     </div>
 </div>
 {% endblock %}
