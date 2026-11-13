@@ -8,7 +8,12 @@
         <div class="action-buttons">
             {% if user.is_authenticated %}
                 <p>Zalogowano jako: <strong>{{ user.username }}</strong></p>
-                <a href="{% url 'logout' %}" class="btn btn-secondary">Wyloguj się</a>
+                <form method="POST" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-secondary">
+                        Wyloguj się
+                    </button>
+                </form>
             {% else %}
                 <a href="{% url 'login' %}" class="btn btn-primary">Zaloguj się</a>
                 <a href="{% url 'register' %}" class="btn btn-outline">Zarejestruj się</a>
