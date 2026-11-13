@@ -1,4 +1,4 @@
-
+from django.views.decorators.cache import never_cache
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login, logout as auth_logout
@@ -28,8 +28,7 @@ def login_page(request):
         form = AuthenticationForm()
 
     return render(request, 'login.html', {'form': form})
-
-
+@never_cache
 def home_page(request):
     return render(request, 'home.html')
 
