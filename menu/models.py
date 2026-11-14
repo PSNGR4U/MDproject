@@ -16,6 +16,11 @@ class Dish(models.Model):
         on_delete=models.CASCADE,
         related_name='dishes'
     )
+    image = models.ImageField(
+        upload_to='dishes/',
+        blank=True,
+        null=True
+    )
 
     def __str__(self):
         return self.name
