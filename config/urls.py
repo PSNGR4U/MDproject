@@ -1,6 +1,8 @@
 
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 from accounts.views import register_page, login_page, home_page, logout_page
 from menu.views import menu_page
 
@@ -12,3 +14,6 @@ urlpatterns = [
     path('logout/', logout_page, name='logout'),
     path('menu/', menu_page, name='menu'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

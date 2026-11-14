@@ -21,6 +21,9 @@
     <h2>Dishes</h2>
     {% for dish in dishes %}
     <div>
+        {% if dish.image %}
+        <img src="{{ dish.image.url }}" alt="{{ dish.name }}">
+        {% endif %}
         <h3>{{ dish.name }}</h3>
         <p>{{ dish.description }}</p>
         <p>Price: {{ dish.price }}</p>
