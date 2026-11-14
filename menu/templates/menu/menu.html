@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurant Menu</title>
+</head>
+
+<body>
+    <h1>Our Menu</h1>
+
+    <h2>Categories</h2>
+    <ul>
+        {% for category in categories %}
+        <li>{{ category.name }}</li>
+        {% empty %}
+        <li>No categories available.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Dishes</h2>
+    {% for dish in dishes %}
+    <div>
+        <h3>{{ dish.name }}</h3>
+        <p>{{ dish.description }}</p>
+        <p>Price: {{ dish.price }}</p>
+        <p>Category: {{ dish.category.name }}</p>
+    </div>
+    {% empty %}
+    <p>No dishes available.</p>
+    {% endfor %}
+</body>
+
+</html>
