@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Dish</title>
+</head>
+
+<body>
+
+    <h1>Delete Dish</h1>
+
+    <p>Are you sure you want to delete "{{ dish.name }}"?</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">Yes, delete</button>
+    </form>
+
+    <a href="{% url 'menu' %}">Cancel</a>
+
+</body>
+
+</html>
