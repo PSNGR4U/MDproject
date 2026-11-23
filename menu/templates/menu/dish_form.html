@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% if dish %}Edit Dish{% else %}Add Dish{% endif %}</title>
+</head>
+
+<body>
+
+    <h1>
+        {% if dish %}
+        Edit Dish
+        {% else %}
+        Add Dish
+        {% endif %}
+    </h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Save</button>
+    </form>
+
+    <a href="{% url 'menu' %}">Back to Menu</a>
+
+</body>
+
+</html>
