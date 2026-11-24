@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 
 from .models import Dish, Category
-from .forms import DishForm
+from .forms import DishForm, CategoryForm
 
 
 def menu_manager_required(view_func):
@@ -120,4 +120,63 @@ def delete_dish(request, pk):
         request,
         'menu/confirm_delete.html',
         {'dish': dish}
+    )
+
+
+@menu_manager_required
+def add_category(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('menu')
+    else:
+        form = CategoryForm()
+
+    return render(request, 'menu/category_form.html', {'form': form})
+
+
+@menu_manager_required
+def edit_category(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, instance=category)
+
+        if form.is_valid():
+            form.save()
+            return redirect('menu')
+    else:
+        form = CategoryForm(instance=category)
+
+    return render(
+        request,
+        'menu/category_form.html',
+        {'form': form, 'category': category}
+    )
+
+
+@menu_manager_required
+def delete_category(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+
+    if request.method == 'POST':
+        if category.dishes.exists():
+            return render(
+                request,
+                'menu/confirm_category_delete.html',
+                {
+                    'category': category,
+                    'error': 'Cannot delete a category that contains dishes.'
+                }
+            )
+
+        category.delete()
+        return redirect('menu')
+
+    return render(
+        request,
+        'menu/confirm_category_delete.html',
+        {'category': category}
     )

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% if category %}Edit Category{% else %}Add Category{% endif %}</title>
+</head>
+
+<body>
+
+    <h1>
+        {% if category %}
+        Edit Category
+        {% else %}
+        Add Category
+        {% endif %}
+    </h1>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Save</button>
+    </form>
+
+    <a href="{% url 'menu' %}">Back to Menu</a>
+
+</body>
+
+</html>

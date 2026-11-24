@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Category</title>
+</head>
+
+<body>
+
+    <h1>Delete Category</h1>
+
+    <p>Are you sure you want to delete "{{ category.name }}"?</p>
+
+    {% if error %}
+    <p>{{ error }}</p>
+    {% endif %}
+
+    {% if not error %}
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">Yes, delete</button>
+    </form>
+    {% endif %}
+
+    <a href="{% url 'menu' %}">Back to Menu</a>
+
+</body>
+
+</html>
