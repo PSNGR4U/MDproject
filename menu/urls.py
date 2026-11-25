@@ -10,6 +10,7 @@ urlpatterns = [
     path('<int:pk>/delete/', views.delete_dish, name='delete_dish'),
    
     path('categories/add/', views.add_category, name='add_category'),
+    path("<int:pk>/", views.dish_detail, name="dish_detail"),
     path('categories/<int:pk>/edit/', views.edit_category, name='edit_category'),
     path('categories/<int:pk>/delete/', views.delete_category, name='delete_category'),
 ]

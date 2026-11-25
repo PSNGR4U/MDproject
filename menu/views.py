@@ -5,9 +5,11 @@ from functools import wraps
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 
 from .models import Dish, Category
 from .forms import DishForm, CategoryForm
+
 
 
 def menu_manager_required(view_func):
@@ -27,51 +29,43 @@ def menu_manager_required(view_func):
 
 
 def menu_page(request):
-    dishes = Dish.objects.select_related('category').all()
-    categories = Category.objects.all()
+    dishes = Dish.objects.select_related("category").all()
+    all_categories = Category.objects.all()
 
-    category_id = request.GET.get('category', '')
-    min_price = request.GET.get('min_price', '')
-    max_price = request.GET.get('max_price', '')
+    search_query = request.GET.get("q", "").strip()
+    selected_category = request.GET.get("category", "").strip()
+    min_price = request.GET.get("min_price", "").strip()
+    max_price = request.GET.get("max_price", "").strip()
 
-    if category_id:
-        try:
-            dishes = dishes.filter(category_id=int(category_id))
-        except ValueError:
-            pass
+    if search_query:
+        dishes = dishes.filter(
+            Q(name__icontains=search_query) | Q(description__icontains=search_query)
+        )
+
+    if selected_category:
+        dishes = dishes.filter(category__pk=selected_category)
 
     if min_price:
-        try:
-            price = Decimal(min_price)
-            if price.is_finite() and price >= 0:
-                dishes = dishes.filter(price__gte=price)
-        except InvalidOperation:
-            pass
+        dishes = dishes.filter(price__gte=min_price)
 
     if max_price:
-        try:
-            price = Decimal(max_price)
-            if price.is_finite() and price >= 0:
-                dishes = dishes.filter(price__lte=price)
-        except InvalidOperation:
-            pass
+        dishes = dishes.filter(price__lte=max_price)
 
     can_manage_menu = request.user.is_authenticated and (
-        request.user.is_superuser
-        or request.user.is_staff
-        or request.user.role == 'manager'
+        request.user.is_staff or request.user.is_superuser
     )
 
     context = {
-        'dishes': dishes,
-        'categories': categories,
-        'selected_category': category_id,
-        'min_price': min_price,
-        'max_price': max_price,
-        'can_manage_menu': can_manage_menu,
+        "dishes": dishes,
+        "categories": all_categories,
+        "all_categories": all_categories,
+        "search_query": search_query,
+        "selected_category": selected_category,
+        "min_price": min_price,
+        "max_price": max_price,
+        "can_manage_menu": can_manage_menu,
     }
-
-    return render(request, 'menu/menu.html', context)
+    return render(request, "menu/menu.html", context)
 
 
 @menu_manager_required
@@ -175,8 +169,17 @@ def delete_category(request, pk):
         category.delete()
         return redirect('menu')
 
+
     return render(
         request,
         'menu/confirm_category_delete.html',
         {'category': category}
     )
+
+def dish_detail(request, pk):
+    dish = get_object_or_404(Dish.objects.select_related("category"), pk=pk)
+    context = {
+        "dish": dish,
+        "can_manage_menu": request.user.is_authenticated and (request.user.is_staff or request.user.is_superuser),
+    }
+    return render(request, "menu/dish_detail.html", context)

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="md-detail-wrap">
+    <div class="md-detail-card">
+        <div class="md-detail-top">
+            <a href="{% url 'menu' %}" class="btn btn-outline">← Wróć do menu</a>
+            {% if can_manage_menu %}
+                <div class="md-detail-manage">
+                    <a href="{% url 'edit_dish' dish.pk %}" class="md-btn-sm md-btn-edit">Edytuj</a>
+                    <form method="POST" action="{% url 'delete_dish' dish.pk %}" class="md-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="md-btn-sm md-btn-del" onclick="return confirm('Usunąć danie {{ dish.name }}?');">Usuń</button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="md-detail-grid">
+            <div class="md-detail-media">
+                {% if dish.image %}
+                    <img src="{{ dish.image.url }}" alt="{{ dish.name }}" class="md-detail-img">
+                {% else %}
+                    <div class="md-detail-noimg">Brak zdjęcia</div>
+                {% endif %}
+            </div>
+
+            <div class="md-detail-info">
+                <div class="md-detail-meta">
+                    <span class="md-badge">{{ dish.category.name }}</span>
+                    <span class="md-detail-price">{{ dish.price }} zł</span>
+                </div>
+
+                <h1 class="md-detail-title">{{ dish.name }}</h1>
+                <p class="md-detail-desc">{{ dish.description|default:"Brak opisu dania." }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
