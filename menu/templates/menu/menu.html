@@ -1,69 +1,111 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Restaurant Menu</title>
-</head>
-
-<body>
-    <h1>Our Menu</h1>
-
-    <h2>Categories</h2>
-    
-    {% if can_manage_menu %}
-    <a href="{% url 'add_category' %}">Add Category</a>
-    {% endif %}
-    
-    <ul>
-        {% for category in categories %}
-        <li>
-            {{ category.name }}
-    
+{% block content %}
+<div class="md-menu-box">
+    <div class="md-menu-top">
+        <div>
+            <h1>Menu restauracji</h1>
+            <p>Wybierz danie z karty lub przejdź do szczegółów pozycji.</p>
+        </div>
+        <div class="md-menu-actions">
+            <a href="{% url 'home' %}" class="btn btn-outline">← Strona główna</a>
             {% if can_manage_menu %}
-            <a href="{% url 'edit_category' category.pk %}">Edit</a>
-    
-            <form method="POST" action="{% url 'delete_category' category.pk %}" style="display: inline;">
-                {% csrf_token %}
-                <button type="submit" onclick="return confirm('Are you sure you want to delete this category?');">
-                    Delete
-                </button>
-            </form>
+                <a href="{% url 'add_dish' %}" class="btn btn-primary">+ Dodaj danie</a>
+                <a href="{% url 'add_category' %}" class="btn btn-outline">+ Dodaj kategorię</a>
             {% endif %}
-        </li>
-        {% empty %}
-        <li>No categories available.</li>
-        {% endfor %}
-    </ul>
-
-    <h2>Dishes</h2>
-    
-    {% if can_manage_menu %}
-    <a href="{% url 'add_dish' %}">Add Dish</a>
-    {% endif %}
-    {% for dish in dishes %}
-    <div>
-        {% if dish.image %}
-        <img src="{{ dish.image.url }}" alt="{{ dish.name }}">
-        {% endif %}
-        <h3>{{ dish.name }}</h3>
-        <p>{{ dish.description }}</p>
-        <p>Price: {{ dish.price }}</p>
-        <p>Category: {{ dish.category.name }}</p>
-        {% if can_manage_menu %}
-        <a href="{% url 'edit_dish' dish.pk %}">Edit</a>
-        
-        <form method="POST" action="{% url 'delete_dish' dish.pk %}">
-            {% csrf_token %}
-            <button type="submit" onclick="return confirm('Are you sure you want to delete this dish?');">
-                Delete
-            </button>
-        </form>
-        {% endif %}
+        </div>
     </div>
-    {% empty %}
-    <p>No dishes available.</p>
-    {% endfor %}
-</body>
 
-</html>
+    {% if can_manage_menu and categories %}
+    <div class="md-cats-box">
+        <h3>Kategorie:</h3>
+        <div class="md-cats-list">
+            {% for category in categories %}
+                <div class="md-cat-pill">
+                    <span>{{ category.name }}</span>
+                    <a href="{% url 'edit_category' category.pk %}">Edytuj</a>
+                    <form method="POST" action="{% url 'delete_category' category.pk %}" class="md-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="md-cat-del" onclick="return confirm('Usunąć kategorię {{ category.name }}?');">×</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <form method="GET" action="{% url 'menu' %}" class="md-filters-bar">
+        <div class="md-filter-field">
+            <label for="id_category">Kategoria</label>
+            <select name="category" id="id_category">
+                <option value="">Wszystkie kategorie</option>
+                {% for category in all_categories %}
+                    <option value="{{ category.pk }}" {% if selected_category|stringformat:"s" == category.pk|stringformat:"s" %}selected{% endif %}>
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="md-filter-field">
+            <label for="id_min_price">Cena od (zł)</label>
+            <input type="number" step="0.01" min="0" name="min_price" id="id_min_price" value="{{ min_price|default:'' }}" placeholder="0.00">
+        </div>
+
+        <div class="md-filter-field">
+            <label for="id_max_price">Cena do (zł)</label>
+            <input type="number" step="0.01" min="0" name="max_price" id="id_max_price" value="{{ max_price|default:'' }}" placeholder="999.00">
+        </div>
+
+        <div class="md-filter-actions">
+            <button type="submit" class="btn btn-primary">Filtruj</button>
+            <a href="{% url 'menu' %}" class="btn btn-outline">Wyczyść</a>
+        </div>
+
+        <div class="md-filter-field">
+            <label for="id_q">Szukaj</label>
+            <input type="text" name="q" id="id_q" value="{{ search_query|default:'' }}" placeholder="Nazwa lub opis...">
+        </div>
+    </form>
+
+    <div class="md-grid">
+        {% for dish in dishes %}
+        <article class="md-card">
+            {% if dish.image %}
+                <a href="{% url 'dish_detail' dish.pk %}" class="md-card-img-link">
+                    <img src="{{ dish.image.url }}" alt="{{ dish.name }}" class="md-card-img">
+                </a>
+            {% else %}
+                <a href="{% url 'dish_detail' dish.pk %}" class="md-card-noimg">Brak zdjęcia</a>
+            {% endif %}
+
+            <div class="md-card-body">
+                <div class="md-card-meta">
+                    <span class="md-badge">{{ dish.category.name }}</span>
+                    <span class="md-price">{{ dish.price }} zł</span>
+                </div>
+
+                <h2 class="md-card-title">
+                    <a href="{% url 'dish_detail' dish.pk %}" class="md-card-title-link">{{ dish.name }}</a>
+                </h2>
+                <p class="md-card-desc">{{ dish.description|truncatechars:110 }}</p>
+
+                {% if can_manage_menu %}
+                <div class="md-card-actions">
+                    <a href="{% url 'edit_dish' dish.pk %}" class="md-btn-sm md-btn-edit">Edytuj</a>
+                    <form method="POST" action="{% url 'delete_dish' dish.pk %}" class="md-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="md-btn-sm md-btn-del" onclick="return confirm('Usunąć danie {{ dish.name }}?');">Usuń</button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+        </article>
+        {% empty %}
+        <div class="md-empty">
+            <p>Brak dostępnych dań w menu.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

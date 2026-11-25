@@ -1,31 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>{% if category %}Edit Category{% else %}Add Category{% endif %}</title>
-</head>
+{% block content %}
+<div class="md-form-wrap">
+    <div class="md-form-card">
+        <div class="md-form-head">
+            <h1>{{ title|default:"Kategoria menu" }}</h1>
+            <p>Podaj nazwę kategorii i zapisz zmiany.</p>
+        </div>
 
-<body>
+        <form method="POST" class="md-styled-form">
+            {% csrf_token %}
+            {{ form.as_p }}
 
-    <h1>
-        {% if category %}
-        Edit Category
-        {% else %}
-        Add Category
-        {% endif %}
-    </h1>
-
-    <form method="POST">
-        {% csrf_token %}
-
-        {{ form.as_p }}
-
-        <button type="submit">Save</button>
-    </form>
-
-    <a href="{% url 'menu' %}">Back to Menu</a>
-
-</body>
-
-</html>
+            <div class="md-form-actions">
+                <button type="submit" class="btn btn-primary">Zapisz kategorię</button>
+                <a href="{% url 'menu' %}" class="btn btn-outline">← Wróć do menu</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
