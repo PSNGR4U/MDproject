@@ -1,40 +1,164 @@
 # MDproject
-PWGP SEM5 PROJECT restauracja — menu, zamówienia i rezerwacje;
 
+## Opis projektu
 
-nazwa zespołu: MDproject
+MDproject to aplikacja internetowa dla restauracji, tworzona w ramach projektu PWGP SEM5. Jej celem jest usprawnienie prezentacji menu oraz obsługi klientów i zarządzania ofertą restauracji.
 
-osoby zespoly: Maksym Boiko(maks819), Dmytro Shmakov(PSNGR4U)
+Projekt należy do branży **FoodTech / E-commerce**.
 
-wybrane branze: FoodTech / E-commerce (Systemy zarządzania i obsługi zamówień w gastronomii)
+## Zespół
 
-Problem: Tradycyjna obsługa w restauracjach bywa wolna w godzinach szczytu. Klienci tracą czas, czekając na kelnera, aby zobaczyć menu, złożyć zamówienie lub zapłacić. Z kolei restauracje zmagają się z błędami w zamówieniach, brakiem wolnych stolików tа utrudnionym zarządzaniem rezerwacjami w czasie rzeczywistym.
+- **Maksym Boiko** (`maks819`) — Backend Developer / Git Master
+- **Dmytro Shmakov** (`PSNGR4U`) — Frontend Developer / UI Designer
 
- Użytkownicy:
-	• Klienci restauracji: Osoby, które chcą zdalnie przeglądać menu, rezerwować stoliki oraz zamawiać jedzenie (na miejscu przy stoliku lub na wynos).
-	• Obsługa i Managerowie restauracji: Personel, który zarządza statusem rezerwacji, przyjmuje zamówienia na kuchnię oraz aktualizuje menu w panelu administracyjnym.
+## Technologie
 
-3–5 głównych funkcji:
+- Python 3.9
+- Django 4.2.30
+- SQLite
+- HTML5
+- CSS3
+- Pillow
+- Git i GitHub
 
-1. Interaktywne Menu: Przeglądanie dań z filtrowaniem według kategorii, cen
-2. System Rezerwacji Stolików: Możliwość wyboru daty, godziny oraz liczby osób z potwierdzeniem rezerwacji.
-3.Składanie Zamówień online: Koszyk zakupowy umożliwiający zamówienie jedzenia do stolika lub na wynos
-4. Panel Managera/Kuchni: Panel do zmiany statusów zamówień (np. „w przygotowaniu”, „gotowe”) oraz zarządzania rezerwacjami.
-aa
- Zakres MVP :
-Rejestracja i logowanie użytkowników.
-Wyświetlanie cyfrowego menu z cenami.
-Prosty formularz rezerwacji stolika na wybraną godzinę.
-Dodawanie dań do koszyka i symulacja złożenia zamówienia (bez realnych płatności).
+## Zaimplementowane funkcjonalności
 
-• Poza zakresem (Gwarancja bezpieczeństwa przed nadmiarem pracy):
-	• Integracja z prawdziwymi systemami płatności (np. BLIK, PayU).
-	• Weryfikacja numeru telefonu przez SMS.
-	• Aplikacja mobilna (tworzycie tylko aplikację webową/stronę PWA).
+- Rejestracja i logowanie użytkowników.
+- Obsługa ról użytkowników: klient i manager.
+- Wyświetlanie menu restauracji.
+- Przeglądanie dań i filtrowanie menu według kategorii.
+- Wyszukiwanie dań.
+- Wyświetlanie zdjęć, opisów i cen dań.
+- Dodawanie, edytowanie i usuwanie dań przez managera.
+- Dodawanie, edytowanie i usuwanie kategorii przez managera.
+- Kontrola uprawnień dostępu do funkcji zarządzania menu.
 
-Stos i podział ról dopasowane do zespołu:
-Python,Django,HTML,CSS,SQLITE,GitHub,Django Andmin
+## Główny scenariusz MVP
 
-Maksym Boiko— Backend Developer / Git Master (konfiguracja Django, tworzenie modeli bazy danych SQLite, logika rezerwacji i koszyka, zarządzanie repozytorium GitHub).
+Manager loguje się do aplikacji, przechodzi do menu, dodaje nowe danie za pomocą formularza, a następnie zapisuje je w bazie danych SQLite. Po zapisaniu danie pojawia się na stronie menu i jest widoczne dla użytkowników.
 
-Dmytro Shmakov— Frontend Developer / UI Designer (projektowanie wyglądu, struktura HTML5, stylowanie CSS3, integracja szablonów z widokami Django, responsywność aplikacji).
+## Struktura projektu
+
+```text
+MDproject/
+│
+├── accounts/
+│   ├── migrations/
+│   ├── static/
+│   ├── templates/
+│   ├── admin.py
+│   ├── forms.py
+│   ├── models.py
+│   ├── tests.py
+│   └── views.py
+│
+├── config/
+│   ├── settings.py
+│   ├── urls.py
+│   ├── asgi.py
+│   └── wsgi.py
+│
+├── menu/
+│   ├── migrations/
+│   ├── templates/
+│   ├── admin.py
+│   ├── forms.py
+│   ├── models.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+│
+├── .gitignore
+├── db.sqlite3
+├── manage.py
+├── requirements.txt
+└── README.md
+```
+
+### Podział odpowiedzialności w projekcie
+
+- **models.py** — definicje modeli i struktury danych.
+- **forms.py** — formularze i walidacja danych.
+- **views.py** — logika aplikacji i obsługa żądań użytkowników.
+- **urls.py** — konfiguracja adresów URL.
+- **templates/** — szablony stron HTML.
+- **static/** — pliki CSS i obrazy.
+- **migrations/** — zmiany struktury bazy danych.
+
+## Instalacja i uruchomienie
+
+### 1. Sklonowanie repozytorium
+
+```bash
+git clone https://github.com/PSNGR4U/MDproject.git
+cd MDproject
+```
+
+### 2. Utworzenie środowiska wirtualnego
+
+```bash
+python -m venv .venv
+```
+
+### 3. Aktywacja środowiska
+
+Windows PowerShell:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+### 4. Instalacja zależności
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+### 5. Wykonanie migracji bazy danych
+
+```bash
+python manage.py migrate
+```
+
+### 6. Uruchomienie serwera
+
+```bash
+python manage.py runserver
+```
+
+Aplikacja będzie dostępna pod adresem:
+
+http://127.0.0.1:8000/
+
+## Podział obowiązków
+
+### Maksym Boiko — Backend Developer / Git Master
+
+- Konfiguracja projektu Django.
+- Tworzenie modeli i obsługa bazy danych SQLite.
+- Implementacja formularzy, widoków i logiki backendowej.
+- System rejestracji, logowania i uprawnień użytkowników.
+- Zarządzanie repozytorium GitHub, branchami i Pull Requestami.
+
+### Dmytro Shmakov — Frontend Developer / UI Designer
+
+- Projektowanie wyglądu aplikacji.
+- Tworzenie struktury HTML5.
+- Stylowanie stron za pomocą CSS3.
+- Integracja szablonów HTML z widokami Django.
+- Dostosowanie interfejsu do różnych rozmiarów ekranów.
+
+## Poza zakresem aktualnego MVP
+
+Poniższe funkcjonalności nie są częścią obecnie zrealizowanego MVP i mogą zostać rozwinięte w kolejnych etapach projektu:
+
+- Koszyk zakupowy i składanie zamówień online.
+- Zarządzanie statusami zamówień.
+- Rezerwacja stolików.
+- Integracja z prawdziwymi systemami płatności, np. BLIK i PayU.
+- Weryfikacja numeru telefonu przez SMS.
+- Dedykowana aplikacja mobilna.
+
+## Informacje dodatkowe
+
+Projekt jest rozwijany zespołowo z wykorzystaniem Git i GitHub. Prace są dzielone na osobne branche, a zmiany trafiają do głównej gałęzi `main` za pośrednictwem Pull Requestów.
