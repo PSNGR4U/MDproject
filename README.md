@@ -11,15 +11,15 @@ Projekt należy do branży **FoodTech / E-commerce**.
 - **Maksym Boiko** (`maks819`) — Backend Developer / Git Master
 - **Dmytro Shmakov** (`PSNGR4U`) — Frontend Developer / UI Designer
 
-## Technologie
+## Technologies
 
-- Python 3.9
+- Python 3.13.0
 - Django 4.2.30
 - SQLite
 - HTML5
 - CSS3
-- Pillow
-- Git i GitHub
+- Pillow 11.3.0
+- Git / GitHub
 
 ## Zaimplementowane funkcjonalności
 
