@@ -155,9 +155,7 @@ Poniższe funkcjonalności nie są częścią obecnie zrealizowanego MVP i mogą
 - Koszyk zakupowy i składanie zamówień online.
 - Zarządzanie statusami zamówień.
 - Rezerwacja stolików.
-- Integracja z prawdziwymi systemami płatności, np. BLIK i PayU.
-- Weryfikacja numeru telefonu przez SMS.
-- Dedykowana aplikacja mobilna.
+
 
 ## Informacje dodatkowe
 
