@@ -13,6 +13,7 @@ urlpatterns = [
     path('login/', login_page, name='login'),
     path('logout/', logout_page, name='logout'),
     path('menu/', include('menu.urls')),
+    path('cart/', include('cart.urls')),
 ]
 
 if settings.DEBUG:
